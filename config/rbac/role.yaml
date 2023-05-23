@@ -1,0 +1,82 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  verbs:
+  - '*'
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - validatingwebhookconfigurations
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - middleware.daocloud.io
+  resources:
+  - mongodbs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - middleware.daocloud.io
+  resources:
+  - mongodbs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - middleware.daocloud.io
+  resources:
+  - mongodbs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - middleware.daocloud.io
+  resources:
+  - multicloudmongodbs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - middleware.daocloud.io
+  resources:
+  - multicloudmongodbs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - middleware.daocloud.io
+  resources:
+  - multicloudmongodbs/status
+  verbs:
+  - get
+  - patch
+  - update

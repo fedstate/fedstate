@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb-sample-mongodb-0
+  name: mongodb-sample-mongodb-0
+spec:
+  ipFamily: IPv4
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: mongodb-sample-mongodb-0
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb-sample-mongodb-1
+  name: mongodb-sample-mongodb-1
+spec:
+  ipFamily: IPv4
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: mongodb-sample-mongodb-1
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb-sample-mongodb-2
+  name: mongodb-sample-mongodb-2
+spec:
+  ipFamily: IPv4
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: mongodb-sample-mongodb-2
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb-sample-mongodb-arbiter
+  name: mongodb-sample-mongodb-arbiter
+spec:
+  ipFamily: IPv4
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: mongodb-sample-mongodb-arbiter
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}

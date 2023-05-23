@@ -1,0 +1,4 @@
+resources:
+  - manifests_controlplane.yaml
+  - secret.yaml
+  - service.yaml

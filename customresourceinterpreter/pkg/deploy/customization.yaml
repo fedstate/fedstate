@@ -1,0 +1,50 @@
+apiVersion: config.karmada.io/v1alpha1
+kind: ResourceInterpreterCustomization
+metadata:
+  name: karmada-interpreter-mongo-configuration-test
+spec:
+  target:
+    apiVersion: middleware.daocloud.io/v1alpha1
+    kind: MongoDB
+  customizations:
+    replicaRevision:
+      luaScript: >
+        function ReviseReplica(obj, desiredReplica)
+          obj.spec.members = desiredReplica
+          return obj
+        end
+    replicaResource:
+      luaScript: >
+        function GetReplicas(obj)
+          replica = obj.spec.members
+          return replica
+        end
+    statusAggregation:
+      luaScript: >
+        function AggregateStatus(desiredObj, statusItems)
+          if statusItems == nil then
+            return desiredObj
+          end
+          if desiredObj.status == nil then
+            desiredObj.status = {currentInfo={members=0,resources={limits={cpu="unknow",memory="unknow"},requests={cpu="unknow",memory="unknow"}}},currentRevision="unknow",replset={}}
+          end
+          replicas = 0
+          for i = 1, #statusItems do
+            desiredObj.status.currentInfo.resources = statusItems[i].status.currentInfo.resources
+            if statusItems[i].status ~= nil and statusItems[i].status.currentInfo ~= nil and statusItems[i].status.currentInfo.members ~= 0 then
+              replicas = replicas + statusItems[i].status.currentInfo.members
+            end
+          end
+          desiredObj.status.currentInfo.members  = replicas
+          return desiredObj
+        end
+    statusReflection:
+      luaScript: >
+        function ReflectStatus (observedObj)
+          return observedObj.status
+        end
+    healthInterpretation:
+      luaScript: >
+        function InterpretHealth(observedObj)
+          return observedObj.status.currentInfo.members == observedObj.spec.members
+        end

@@ -1,0 +1,23 @@
+apiVersion: middleware.daocloud.io/v1alpha1
+kind: MultiCloudMongoDB
+metadata:
+  name: multicloudmongodb-sample
+spec:
+  replicaset: 2
+  export:
+    enable: false
+  resource:
+    limits:
+      cpu: "2"
+      memory: 512Mi
+    requests:
+      cpu: "1"
+      memory: 512Mi
+  storage:
+    storageClass: managed-nfs-storage
+    storageSize: 1Gi
+  imageSetting:
+    image: daocloud.io/atsctoo/mongo:3.6
+    imagePullPolicy: Always
+
+

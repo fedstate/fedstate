@@ -1,0 +1,44 @@
+apiVersion: middleware.daocloud.io/v1alpha1
+kind: MongoDB
+metadata:
+  labels:
+    app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb-sample
+    app.kubernetes.io/part-of: multicloud-mongo-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: multicloud-mongo-operator
+  name: mongodb-sample
+spec:
+  rsInit: true
+  arbiter: true
+  type: ReplicaSet
+  members: 3 # 副本数
+  image: daocloud.io/atsctoo/mongo:3.6 # 可以指定某个mongo版本进行部署，默认为mongo 3.6版本
+  imagePullSecret: # 镜像拉取认证信息
+    username: admin
+    password: admin
+  imagePullPolicy: IfNotPresent # 镜像拉取策略
+  config: # 参考mongo的配置进行填入
+     - name: LOG_LEVEL
+       value: info
+  # customConfigRef: mongo-operator-mongo-default-config # 自定义mongo config, 指定cm name
+  rootPassword: "123456" # 指定初始密码
+  resources:
+    limits:
+      cpu: "1"
+      memory: 512Mi
+    requests:
+      cpu: "1"
+      memory: 512Mi
+  persistence: # 持久化参数
+    storage: 1Gi
+    storageClassName: "" # 存储类型，默认为空，使用默认sc
+  metricsExporterSpec:
+    enable: true # 监控是否开启，默认为false
+    resources:
+      limits:
+        cpu: "0.1"
+        memory: 128Mi
+      requests:
+        cpu: "0.1"
+        memory: 128Mi

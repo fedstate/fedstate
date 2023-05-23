@@ -1,0 +1,54 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mongo-operator-mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: mongo-manager
+      namespace: mongo-operator
+      path: /mutate-middleware-daocloud-io-v1alpha1-mongodb
+  failurePolicy: Fail
+  name: mmongodb.kb.io
+  rules:
+  - apiGroups:
+    - middleware.daocloud.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mongodbs
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mongo-operator-validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+   service:
+      name: mongo-manager
+      namespace: mongo-operator
+      path: /validate-middleware-daocloud-io-v1alpha1-mongodb
+  failurePolicy: Fail
+  name: vmongodb.kb.io
+  rules:
+  - apiGroups:
+    - middleware.daocloud.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mongodbs
+  sideEffects: None

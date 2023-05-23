@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-custom-mongo-conf
+  namespace: default
+data:
+  mongod.yaml: |
+    ---
+    # Where and how to store data.
+    storage:
+      dbPath: /data/db
+      journal:
+        enabled: true
+        commitIntervalMs: 100
+      syncPeriodSecs: 60
+      wiredTiger:
+        engineConfig:
+          cacheSizeGB: 2
+          journalCompressor: snappy
+        collectionConfig:
+          blockCompressor: snappy
+        indexConfig:
+          prefixCompression: true
+    # how the process runs
+    processManagement:
+      #  fork: true
+      timeZoneInfo: /usr/share/zoneinfo
+    # network interfaces
+    net:
+      port: 27017
+      bindIp: 0.0.0.0
+      maxIncomingConnections: 10240
+    operationProfiling:
+      mode: slowOp
+      slowOpThresholdMs: 1000

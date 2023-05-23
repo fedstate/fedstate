@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: mongodb-sample
+    app.kubernetes.io/managed-by: mongo-operator
+  name: mongodb-sample-hostconf
+data:
+  datas: |
+    host:'10.29.5.107:38018'
+    host:'10.29.5.107:33808'
+    host:'10.29.5.107:35686'
+  arbiters: |
+    host:'10.29.5.107:38825'

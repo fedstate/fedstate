@@ -1,0 +1,6 @@
+resources:
+  - service_account.yaml
+  - role_controlplane.yaml
+  - role_binding.yaml
+
+

@@ -1,0 +1,36 @@
+domain: daocloud.io
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: multicloud-mongo-operator
+repo: github.com/daocloud/multicloud-mongo-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: daocloud.io
+  group: middleware
+  kind: MultiCloudMongoDB
+  path: github.com/daocloud/multicloud-mongo-operator/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: daocloud.io
+  group: middleware
+  kind: MongoDB
+  path: github.com/daocloud/multicloud-mongo-operator/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+version: "3"

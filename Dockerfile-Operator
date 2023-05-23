@@ -1,0 +1,22 @@
+FROM golang:1.19 as builder
+
+WORKDIR /workspace
+# cache deps before building and copying source so that we don't need to re-download as much
+# and so that source changes don't invalidate our downloaded layer
+ENV GOPROXY=https://goproxy.cn \
+    GO111MODULE=on
+
+# Copy the go source
+COPY . .
+
+# Build
+# https://golang.org/pkg/time/tzdata/
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags timetzdata -ldflags '-s' -o manager .
+
+# Use distroless as minimal base image to package the manager binary
+# Refer to https://github.com/GoogleContainerTools/distroless for more details
+FROM alpine:3
+ENV TZ=Asia/Shanghai
+COPY --from=builder /workspace/manager .
+
+ENTRYPOINT ["/manager"]
