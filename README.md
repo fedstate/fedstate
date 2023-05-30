@@ -1,6 +1,6 @@
 # FedState
 
-FedState是Federation Stateful Service的意思，主要的设计目标是为了解决在多云，多集群，多数据中心的场景下，有状态应用的编排，调度，部署和自动化运维等能力。
+FedState是Federation Stateful Service的意思，主要的设计目标是为了解决在多云，多集群，多数据中心的场景下，有状态服务的编排，调度，部署和自动化运维等能力。
 
 ## 概述：
 
@@ -18,7 +18,7 @@ FedState自身包含以下组件：
 
 ## 快速开始：
 
-在Karmada Host集群，部署FedInfraOps和调度器。在workload集群，部署InfraServer Operator。创建联邦中间件实例。
+在Karmada Host集群，部署FedInfraOps和调度器。在所有Karmada成员集群，部署InfraServer Operator。创建联邦中间件实例。
 
 ### 先决条件：
 
@@ -86,7 +86,7 @@ vim ./deployment.yaml
 - --host-vip-address=10.29.5.103
 ```
 
-6. 在所有workload Cluster上，部署数据面控制器mongo-operator。
+6. 在所有的Karmada的成员集群上，部署数据面控制器mongo-operator。
 
 ```other
 cd insatll/config
