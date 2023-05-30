@@ -94,7 +94,7 @@ kubectl apply -f config/crd/bases/mongodbs.yaml
 kubectl apply -k config/deploy_dataplane/.
 ```
 
-7. 在Karmada Host集群，创建MiddleCloudMongoDB实例。
+7. 在Karmada Host集群，创建MultiCloudMongoDB实例。
 
 ```shell
 kubectl apply -f config/sample/samples.yaml
