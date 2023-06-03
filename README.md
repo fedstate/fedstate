@@ -73,13 +73,21 @@ kubectl apply -f customresourceinterpreter/pkg/deploy/customization.yaml
 3. 在Karmada Host集群上部署控制面服务：
 
 ```other
+
 kubectl create ns {your-namespace}
+
 kubectl create secret generic kubeconfig --from-file=/root/.kube/config -n {your-namespace} 
+
 ## 在kubeconfig查看Karmada ApiServer名称
+
 kubectl config get-contexts
+
 ## 修改manager.yaml将其中的KARMADA_CONTEXT_NAME值改为karmada apiserver名称
+
 vim config/manager/manager.yaml
+
 kubectl apply -f config/webhook/secret.yaml -n {your-namespace}
+
 kubectl apply -k config/deploy_contorlplane/. -n {your-namespace}
 ```
 
@@ -95,10 +103,15 @@ kubectl apply -f config/crd/bases/.
 
 ```other
 ## 在kubeconfig查看Karmada Host Apiserver的名称以及Karmada Apiserver的名称和karmada Host的Vip地址
+
 vim artifacts/deploy/deployment.yaml
-## 修改以下启动参数为上面的值           
+
+## 修改以下启动参数为上面的值    
+
 - --karmada-context=<karmada>
+
 - --host-context=<10-29-14-21>
+
 - --host-vip-address=<10.29.5.103>
 ```
 
@@ -106,6 +119,7 @@ vim artifacts/deploy/deployment.yaml
 
 ```other
 kubectl apply -f config/crd/bases/mongodbs.yaml -n {your-namespace}
+
 kubectl apply -k config/deploy_dataplane/.
 ```
 
@@ -113,6 +127,7 @@ kubectl apply -k config/deploy_dataplane/.
 
 ```shell
 kubectl apply -f config/sample/samples.yaml
+
 ## sample.yaml:
 apiVersion: middleware.fedstate.io/v1alpha1
 kind: MultiCloudMongoDB
