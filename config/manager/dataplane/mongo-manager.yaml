@@ -41,7 +41,7 @@ spec:
         - --kubeconfig=/etc/kubeconfig
         - --enable-mongodb-controller=true
         - --enablecertrotation=true
-        image: 10.29.5.101/daocloud/multicloud-mongo-operator:v0.0.1
+        image: fedstate/fedstate:v0.1
         imagePullPolicy: Always
         name: manager
         livenessProbe:

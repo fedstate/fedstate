@@ -12,7 +12,7 @@ webhooks:
     service:
       name: federation-mongo-manager-service
       namespace: federation-mongo-operator
-      path: /mutate-middleware-daocloud-io-v1alpha1-multicloudmongodb
+      path: /mutate-middleware-fedstate-io-v1alpha1-multicloudmongodb
   failurePolicy: Fail
   name: mmulticloudmongodb.kb.io
   rules:
@@ -40,7 +40,7 @@ webhooks:
     service:
       name: federation-mongo-manager-service
       namespace: federation-mongo-operator
-      path: /validate-middleware-daocloud-io-v1alpha1-multicloudmongodb
+      path: /validate-middleware-fedstate-io-v1alpha1-multicloudmongodb
   failurePolicy: Fail
   name: vmulticloudmongodb.kb.io
   rules:

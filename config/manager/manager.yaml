@@ -44,7 +44,7 @@ spec:
         env:
         - name: KARMADA_CONTEXT_NAME
           value: "karmada"
-        image: 10.29.5.101/daocloud/multicloud-mongo-operator:v0.1
+        image: fedstate/fedstate:v0.1
         imagePullPolicy: Always
         name: manager
         livenessProbe:
