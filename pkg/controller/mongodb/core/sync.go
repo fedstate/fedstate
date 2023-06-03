@@ -3,17 +3,16 @@ package core
 import (
 	"fmt"
 	"strings"
-
 	"time"
 
-	errors "github.com/pkg/errors"
+	"github.com/pkg/errors"
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/k8s"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/driver/k8s"
+	"github.com/fedstate/fedstate/pkg/util"
 	"k8s.io/apimachinery/pkg/util/wait"
 )
 

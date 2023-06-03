@@ -7,8 +7,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/mgo"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/driver/mgo"
 )
 
 type base struct {

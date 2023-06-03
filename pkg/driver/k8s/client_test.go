@@ -15,7 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
 )
 
 func TestScaleDownCleaner(t *testing.T) {
@@ -148,7 +148,7 @@ func TestScaleDownCleaner(t *testing.T) {
 
 	MultiCloudMongoDB := &middlewarev1alpha1.MultiCloudMongoDB{
 		TypeMeta: metav1.TypeMeta{
-			APIVersion: "middleware.daocloud.io/v1alpha1",
+			APIVersion: "middleware.fedstate.io/v1alpha1",
 			Kind:       "MultiCloudMongoDB",
 		},
 		ObjectMeta: metav1.ObjectMeta{

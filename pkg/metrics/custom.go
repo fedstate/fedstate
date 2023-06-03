@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/logi"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"

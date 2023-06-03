@@ -1,4 +1,4 @@
-apiVersion: middleware.daocloud.io/v1alpha1
+apiVersion: middleware.fedstate.io/v1alpha1
 kind: MultiCloudMongoDB
 metadata:
   name: multicloudmongodb-sample
@@ -17,7 +17,7 @@ spec:
     storageClass: managed-nfs-storage
     storageSize: 1Gi
   imageSetting:
-    image: daocloud.io/atsctoo/mongo:3.6
+    image: fedstate.io/atsctoo/mongo:3.6
     imagePullPolicy: Always
 
 

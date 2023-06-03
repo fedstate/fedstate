@@ -30,7 +30,7 @@ rules:
   - watch
   - delete
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - mongodbs
   verbs:
@@ -42,13 +42,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - mongodbs/finalizers
   verbs:
   - update
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - mongodbs/status
   verbs:

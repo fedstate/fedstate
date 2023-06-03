@@ -4,7 +4,7 @@ metadata:
   name: karmada-interpreter-mongo-configuration-test
 spec:
   target:
-    apiVersion: middleware.daocloud.io/v1alpha1
+    apiVersion: middleware.fedstate.io/v1alpha1
     kind: MongoDB
   customizations:
     replicaRevision:

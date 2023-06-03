@@ -11,12 +11,12 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /mutate-middleware-daocloud-io-v1alpha1-mongodb
+      path: /mutate-middleware-fedstate-io-v1alpha1-mongodb
   failurePolicy: Fail
   name: mmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:
@@ -31,12 +31,12 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /mutate-middleware-daocloud-io-v1alpha1-multicloudmongodb
+      path: /mutate-middleware-fedstate-io-v1alpha1-multicloudmongodb
   failurePolicy: Fail
   name: mmulticloudmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:
@@ -58,12 +58,12 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /validate-middleware-daocloud-io-v1alpha1-mongodb
+      path: /validate-middleware-fedstate-io-v1alpha1-mongodb
   failurePolicy: Fail
   name: vmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:
@@ -78,12 +78,12 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /validate-middleware-daocloud-io-v1alpha1-multicloudmongodb
+      path: /validate-middleware-fedstate-io-v1alpha1-multicloudmongodb
   failurePolicy: Fail
   name: vmulticloudmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:

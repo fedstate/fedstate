@@ -29,7 +29,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - mongodbs
   verbs:
@@ -41,13 +41,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - mongodbs/finalizers
   verbs:
   - update
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - mongodbs/status
   verbs:
@@ -55,7 +55,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - multicloudmongodbs
   verbs:
@@ -67,13 +67,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - multicloudmongodbs/finalizers
   verbs:
   - update
 - apiGroups:
-  - middleware.daocloud.io
+  - middleware.fedstate.io
   resources:
   - multicloudmongodbs/status
   verbs:

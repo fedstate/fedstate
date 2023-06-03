@@ -4,10 +4,10 @@ import (
 	"go.uber.org/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/controller/mongodb/core"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/controller/mongodb/mode/replica"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/event"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/controller/mongodb/core"
+	"github.com/fedstate/fedstate/pkg/controller/mongodb/mode/replica"
+	"github.com/fedstate/fedstate/pkg/event"
 )
 
 type MongoInstance interface {

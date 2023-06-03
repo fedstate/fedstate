@@ -16,7 +16,7 @@ webhooks:
   name: mmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:
@@ -43,7 +43,7 @@ webhooks:
   name: vmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:

@@ -21,10 +21,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/mgo"
+	"github.com/fedstate/fedstate/pkg/driver/mgo"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/util"
 )
 
 func IsExists(client client.Client, obj metav1.Object, found client.Object) (exists bool, err error) {

@@ -7,7 +7,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/logi"
 )
 
 type podUtil int

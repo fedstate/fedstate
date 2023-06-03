@@ -4,15 +4,15 @@ import (
 	"context"
 	"time"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/mgo"
+	"github.com/fedstate/fedstate/pkg/driver/mgo"
 	corev1 "k8s.io/api/core/v1"
 
 	errors2 "github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/util"
 )
 
 func (s *base) UpdateConds(conds ...middlewarev1alpha1.MongoCondition) error {

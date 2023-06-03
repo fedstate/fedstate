@@ -1,6 +1,6 @@
 package k8s
 
-import "github.com/daocloud/multicloud-mongo-operator/pkg/logi"
+import "github.com/fedstate/fedstate/pkg/logi"
 
 var labelLog = logi.Log.Sugar().Named("labelLog")
 
@@ -10,7 +10,7 @@ const (
 	ServicePP               = "app.karmada.io/service-pp"
 	ConfigMapPP             = "app.karmada.io/configmap-pp"
 	CustomConfigMapPP       = "app.karmada.io/custom-configmap-pp"
-	Mongo                   = "app.daocloud.io/mongo"
+	Mongo                   = "app.fedstate.io/mongo"
 	Arbiter                 = "app.arbiter.io/instance"
 	Init                    = "app.mongoinit.io/instance"
 	ClusterVip              = "app.mongoclustervip.io/instance"

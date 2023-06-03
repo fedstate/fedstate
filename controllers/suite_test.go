@@ -30,7 +30,7 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
 	//+kubebuilder:scaffold:imports
 )
 

@@ -27,15 +27,15 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	"github.com/fedstate/fedstate/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/util"
 )
 
 // log is for logging in this package.
 var multicloudmongodblog = logi.Log.With(zap.String("webhook", "MultiCloudMongoDB")).Sugar()
 
 const (
-	defaultMongoImage = "daocloud.io/atsctoo/mongo:3.6"
+	defaultMongoImage = "mongo:3.6"
 
 	UniformScheduling = "Uniform"
 	WeightScheduling  = "Weighting"
@@ -49,7 +49,7 @@ func (r *MultiCloudMongoDB) SetupWebhookWithManager(mgr ctrl.Manager) error {
 
 // TODO(user): EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 
-//+kubebuilder:webhook:path=/mutate-middleware-daocloud-io-v1alpha1-multicloudmongodb,mutating=true,failurePolicy=fail,sideEffects=None,groups=middleware.daocloud.io,resources=multicloudmongodbs,verbs=create;update,versions=v1alpha1,name=mmulticloudmongodb.kb.io,admissionReviewVersions=v1
+//+kubebuilder:webhook:path=/mutate-middleware-fedstate-io-v1alpha1-multicloudmongodb,mutating=true,failurePolicy=fail,sideEffects=None,groups=middleware.fedstate.io,resources=multicloudmongodbs,verbs=create;update,versions=v1alpha1,name=mmulticloudmongodb.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Defaulter = &MultiCloudMongoDB{}
 
@@ -92,7 +92,7 @@ func (r *MultiCloudMongoDB) Default() {
 }
 
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
-//+kubebuilder:webhook:path=/validate-middleware-daocloud-io-v1alpha1-multicloudmongodb,mutating=false,failurePolicy=fail,sideEffects=None,groups=middleware.daocloud.io,resources=multicloudmongodbs,verbs=create;update,versions=v1alpha1,name=vmulticloudmongodb.kb.io,admissionReviewVersions=v1
+//+kubebuilder:webhook:path=/validate-middleware-fedstate-io-v1alpha1-multicloudmongodb,mutating=false,failurePolicy=fail,sideEffects=None,groups=middleware.fedstate.io,resources=multicloudmongodbs,verbs=create;update,versions=v1alpha1,name=vmulticloudmongodb.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Validator = &MultiCloudMongoDB{}
 

@@ -9,9 +9,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	corev1 "k8s.io/api/core/v1"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/k8s"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/mgo"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/driver/k8s"
+	"github.com/fedstate/fedstate/pkg/driver/mgo"
 )
 
 func (s *base) CreateMongoUser(pods []*corev1.Pod, cm *corev1.ConfigMap, needUpdate bool, pw string) error {

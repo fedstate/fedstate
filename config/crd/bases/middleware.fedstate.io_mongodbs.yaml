@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
-  name: mongodbs.middleware.daocloud.io
+  name: mongodbs.middleware.fedstate.io
 spec:
-  group: middleware.daocloud.io
+  group: middleware.fedstate.io
   names:
     kind: MongoDB
     listKind: MongoDBList
@@ -36,10 +36,8 @@ spec:
             description: MongoDBSpec defines the desired state of MongoDB
             properties:
               arbiter:
-                description: '仲裁节点，仅在ReplicaSet/ShardedCluster可用，default: false'
                 type: boolean
               config:
-                description: 自定义mongo config
                 items:
                   properties:
                     name:
@@ -49,35 +47,25 @@ spec:
                   type: object
                 type: array
               customConfigRef:
-                description: 自定义mongo config, 指定cm name
                 type: string
               dbUserSpec:
                 properties:
                   enable:
-                    description: 是否启用自定义数据库用户
                     type: boolean
                   name:
-                    description: 初始化数据库名
                     type: string
                   password:
-                    description: 数据库用户密码
                     type: string
                   user:
-                    description: 配置数据库用户
                     type: string
                 type: object
               image:
-                description: 自定义镜像，例如私有镜像
                 type: string
               imagePullPolicy:
-                description: 镜像拉取策略
-                enum:
-                - Always
-                - Never
-                - IfNotPresent
+                description: PullPolicy describes a policy for if/when to pull a container
+                  image
                 type: string
               imagePullSecret:
-                description: 镜像拉取认证信息
                 properties:
                   password:
                     type: string
@@ -85,18 +73,12 @@ spec:
                     type: string
                 type: object
               memberConfigRef:
-                description: 定义副本集成员信息配置文件
                 type: string
               members:
-                description: ReplicaSet ReplicaSet模式节点数量
-                maximum: 10
-                minimum: 1
                 type: integer
               metricsExporterSpec:
-                description: 监控配置
                 properties:
                   enable:
-                    description: 是否开启监控
                     type: boolean
                   resources:
                     properties:
@@ -121,12 +103,12 @@ spec:
                           pairs.
                         type: object
                     type: object
+                required:
+                - enable
                 type: object
               pause:
-                description: 暂停operator调度, 方便手动调试
                 type: boolean
               persistence:
-                description: 存储配置
                 properties:
                   storage:
                     description: PV储存容量大小
@@ -136,10 +118,10 @@ spec:
                     type: string
                 type: object
               podSpec:
-                description: pod配置
+                description: copy from corev1.PodSpec
                 properties:
                   affinity:
-                    description: 亲和和反亲和
+                    description: Affinity is a group of affinity scheduling rules.
                     properties:
                       nodeAffinity:
                         description: Describes node affinity scheduling rules for
@@ -1009,7 +991,6 @@ spec:
                   nodeSelector:
                     additionalProperties:
                       type: string
-                    description: 节点选择器
                     type: object
                   restartPolicy:
                     description: RestartPolicy describes how the container should
@@ -1018,7 +999,10 @@ spec:
                       the default one is RestartPolicyAlways.
                     type: string
                   securityContext:
-                    description: 安全上下文
+                    description: PodSecurityContext holds pod-level security attributes
+                      and common container settings. Some fields are also present
+                      in container.securityContext.  Field values of container.securityContext
+                      take precedence over field values of PodSecurityContext.
                     properties:
                       fsGroup:
                         description: "A special supplemental group that applies to
@@ -1192,7 +1176,6 @@ spec:
                         type: object
                     type: object
                   tolerations:
-                    description: 污点容忍
                     items:
                       description: The pod this Toleration is attached to tolerates
                         any taint that matches the triple <key,value,effect> using
@@ -1233,7 +1216,6 @@ spec:
                       type: object
                     type: array
                   topologySpreadConstraints:
-                    description: 拓扑分布约束
                     items:
                       description: TopologySpreadConstraint specifies how to spread
                         matching pods among the given topology.
@@ -1408,7 +1390,6 @@ spec:
                     type: array
                 type: object
               resources:
-                description: Mongo节点资源配置
                 properties:
                   limits:
                     additionalProperties:
@@ -1432,17 +1413,10 @@ spec:
                     type: object
                 type: object
               rootPassword:
-                description: 配置root初始密码，为空则自动生成
                 type: string
               rsInit:
-                description: 规定由哪个集群的cr进行初始化
                 type: boolean
               type:
-                description: 'Ref: https://github.com/operator-framework/operator-sdk/issues/2042#issuecomment-541351651'
-                enum:
-                - Standalone
-                - ReplicaSet
-                - ShardedCluster
                 type: string
             type: object
           status:

@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/k8s"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	"github.com/fedstate/fedstate/pkg/driver/k8s"
+	"github.com/fedstate/fedstate/pkg/util"
 	errors2 "github.com/pkg/errors"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"

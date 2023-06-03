@@ -1,8 +1,8 @@
 package replica
 
 import (
-	"github.com/daocloud/multicloud-mongo-operator/pkg/controller/mongodb/core"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	"github.com/fedstate/fedstate/pkg/controller/mongodb/core"
+	"github.com/fedstate/fedstate/pkg/util"
 )
 
 // 添加role、副本集名称和仲裁节点信息

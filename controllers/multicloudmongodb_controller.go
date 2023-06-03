@@ -25,9 +25,9 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/controller/multicloudmongodb"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/model"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/controller/multicloudmongodb"
+	"github.com/fedstate/fedstate/pkg/model"
 
 	"go.uber.org/zap"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -38,11 +38,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/k8s"
+	"github.com/fedstate/fedstate/pkg/driver/k8s"
 )
 
 const (
-	multiCloudMongoDBFinalizerName       = "multiCloudMongoDB.finalizers.middleware.daocloud.io"
+	multiCloudMongoDBFinalizerName       = "multiCloudMongoDB.finalizers.middleware.fedstate.io"
 	multiCloudMongoDBReconcileCtxTimeout = 30 * time.Second
 )
 
@@ -53,9 +53,9 @@ type MultiCloudMongoDBReconciler struct {
 	Log    *zap.SugaredLogger
 }
 
-//+kubebuilder:rbac:groups=middleware.daocloud.io,resources=multicloudmongodbs,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=middleware.daocloud.io,resources=multicloudmongodbs/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=middleware.daocloud.io,resources=multicloudmongodbs/finalizers,verbs=update
+//+kubebuilder:rbac:groups=middleware.fedstate.io,resources=multicloudmongodbs,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=middleware.fedstate.io,resources=multicloudmongodbs/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=middleware.fedstate.io,resources=multicloudmongodbs/finalizers,verbs=update
 // +kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=validatingwebhookconfigurations,verbs=*
 // +kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=mutatingwebhookconfigurations,verbs=*
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;create;update;patch;watch

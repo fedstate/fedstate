@@ -10,11 +10,11 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	k8serr "k8s.io/apimachinery/pkg/api/errors"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/controller/mongodb/core"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/k8s"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/controller/mongodb/core"
+	"github.com/fedstate/fedstate/pkg/driver/k8s"
+	"github.com/fedstate/fedstate/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/util"
 )
 
 var replicaSetModeLog = logi.Log.Sugar().Named("replicaSetMode")

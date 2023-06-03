@@ -11,9 +11,9 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/model"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/model"
+	"github.com/fedstate/fedstate/pkg/util"
 
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -82,7 +82,7 @@ func GenerateMongoPP(name, namespace string, labels map[string]string, cr *middl
 		Spec: v1alpha1.PropagationSpec{
 			ResourceSelectors: []v1alpha1.ResourceSelector{
 				{
-					APIVersion: "middleware.daocloud.io/v1alpha1",
+					APIVersion: "middleware.fedstate.io/v1alpha1",
 					Kind:       "MongoDB",
 					Name:       cr.Name,
 				},
@@ -172,7 +172,7 @@ func GenerateMongoOPWithPath(name, namespace, clusterName string, labels map[str
 		Spec: v1alpha1.OverrideSpec{
 			ResourceSelectors: []v1alpha1.ResourceSelector{
 				{
-					APIVersion: "middleware.daocloud.io/v1alpha1",
+					APIVersion: "middleware.fedstate.io/v1alpha1",
 					Kind:       "MongoDB",
 					Name:       cr.Name,
 					Namespace:  cr.Namespace,
@@ -210,7 +210,7 @@ func GenerateMongoOPWithLabel(name, namespace, clusterName string, labels map[st
 		Spec: v1alpha1.OverrideSpec{
 			ResourceSelectors: []v1alpha1.ResourceSelector{
 				{
-					APIVersion: "middleware.daocloud.io/v1alpha1",
+					APIVersion: "middleware.fedstate.io/v1alpha1",
 					Kind:       "MongoDB",
 					Name:       cr.Name,
 					Namespace:  cr.Namespace,

@@ -23,7 +23,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/config"
 	karmadaClusterv1alpha1 "github.com/karmada-io/api/cluster/v1alpha1"
 	karmadaPolicyv1alpha1 "github.com/karmada-io/api/policy/v1alpha1"
 	karmadaWorkv1alpha2 "github.com/karmada-io/api/work/v1alpha2"
@@ -33,6 +32,9 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
+
+	"github.com/fedstate/fedstate/controllers"
+	"github.com/fedstate/fedstate/pkg/config"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
@@ -47,15 +49,13 @@ import (
 
 	// "sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/controllers"
-
+	"github.com/fedstate/fedstate/api/v1alpha1"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
 	//+kubebuilder:scaffold:imports
 
-	c "github.com/daocloud/multicloud-mongo-operator/pkg/config"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/metrics"
+	c "github.com/fedstate/fedstate/pkg/config"
+	"github.com/fedstate/fedstate/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/metrics"
 )
 
 var (
@@ -119,7 +119,7 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
-		LeaderElectionID:       "d6aa819a.daocloud.io",
+		LeaderElectionID:       "d6aa819a.fedstate.io",
 		// LeaderElectionReleaseOnCancel defines if the leader should step down voluntarily
 		// when the Manager ends. This requires the binary to immediately end when the
 		// Manager is stopped, otherwise, this setting is unsafe. Setting this significantly

@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
-  name: multicloudmongodbs.middleware.daocloud.io
+  name: multicloudmongodbs.middleware.fedstate.io
 spec:
-  group: middleware.daocloud.io
+  group: middleware.fedstate.io
   names:
     kind: MultiCloudMongoDB
     listKind: MultiCloudMongoDBList

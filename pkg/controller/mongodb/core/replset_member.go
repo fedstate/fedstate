@@ -6,9 +6,9 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/mgo"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/driver/mgo"
+	"github.com/fedstate/fedstate/pkg/logi"
 )
 
 type replSetUtil int

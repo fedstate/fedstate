@@ -3,8 +3,8 @@ package core
 import (
 	"strings"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/k8s"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/driver/k8s"
+	"github.com/fedstate/fedstate/pkg/logi"
 	corev1 "k8s.io/api/core/v1"
 )
 

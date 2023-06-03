@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/logi"
 
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/manager"

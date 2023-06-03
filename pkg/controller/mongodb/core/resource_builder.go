@@ -10,11 +10,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/config"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/mgo"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/config"
+	"github.com/fedstate/fedstate/pkg/driver/mgo"
+	"github.com/fedstate/fedstate/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/util"
 )
 
 var resourceBuilderLog = logi.Log.Sugar().Named("resourceBuilder")

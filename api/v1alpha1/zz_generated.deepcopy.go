@@ -6,7 +6,7 @@
 package v1alpha1
 
 import (
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/mgo"
+	"github.com/fedstate/fedstate/pkg/driver/mgo"
 	policyv1alpha1 "github.com/karmada-io/api/policy/v1alpha1"
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"

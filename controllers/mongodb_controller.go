@@ -34,17 +34,18 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/controller/mongodb/core"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/controller/mongodb/mode"
-	event "github.com/daocloud/multicloud-mongo-operator/pkg/event"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/metrics"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/controller/mongodb/core"
+	"github.com/fedstate/fedstate/pkg/controller/mongodb/mode"
+	"github.com/fedstate/fedstate/pkg/event"
+	"github.com/fedstate/fedstate/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/metrics"
+	"github.com/fedstate/fedstate/pkg/util"
 )
 
-const mongoDBFinalizerName = "mongodb.finalizers.middleware.daocloud.io"
+const mongoDBFinalizerName = "mongodb.finalizers.middleware.fedstate.io"
 
 // MongoDBReconciler reconciles a MongoDB object
 type MongoDBReconciler struct {
@@ -55,9 +56,9 @@ type MongoDBReconciler struct {
 	Event  event.IEvent
 }
 
-//+kubebuilder:rbac:groups=middleware.daocloud.io,resources=mongodbs,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=middleware.daocloud.io,resources=mongodbs/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=middleware.daocloud.io,resources=mongodbs/finalizers,verbs=update
+//+kubebuilder:rbac:groups=middleware.fedstate.io,resources=mongodbs,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=middleware.fedstate.io,resources=mongodbs/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=middleware.fedstate.io,resources=mongodbs/finalizers,verbs=update
 //+kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=validatingwebhookconfigurations,verbs=*
 //+kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=mutatingwebhookconfigurations,verbs=*
 //+kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;create;update;patch;watch

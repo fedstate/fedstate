@@ -25,8 +25,8 @@ func SetupFlag(flagset *flag.FlagSet) *Config {
 	Vip.AllowEmptyEnv(true)
 	Vip.AutomaticEnv()
 	Vip.SetTypeByDefaultValue(true)
-	Vip.SetDefault("MongoImage", "daocloud.io/atsctoo/mongo:3.6")
-	Vip.SetDefault("ExporterImage", "daocloud.io/atsctoo/mongodb-exporter:0.32.0")
+	Vip.SetDefault("MongoImage", "fedstate.io/atsctoo/mongo:3.6")
+	Vip.SetDefault("ExporterImage", "fedstate.io/atsctoo/mongodb-exporter:0.32.0")
 	Vip.SetDefault("KarmadaCxt", "Karmada")
 
 	_ = Vip.BindEnv("MongoImage", "MONGO_IMAGE")

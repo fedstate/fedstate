@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/logi"
+	"github.com/fedstate/fedstate/pkg/logi"
 
 	randk8s "k8s.io/apimachinery/pkg/util/rand"
 )

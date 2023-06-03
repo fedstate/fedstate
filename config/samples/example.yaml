@@ -1,4 +1,4 @@
-apiVersion: middleware.daocloud.io/v1alpha1
+apiVersion: middleware.fedstate.io/v1alpha1
 kind: MongoDB
 metadata:
   labels:
@@ -13,7 +13,7 @@ spec:
   arbiter: true
   type: ReplicaSet
   members: 3 # 副本数
-  image: daocloud.io/atsctoo/mongo:3.6 # 可以指定某个mongo版本进行部署，默认为mongo 3.6版本
+  image: mongo:3.6 # 可以指定某个mongo版本进行部署，默认为mongo 3.6版本
   imagePullSecret: # 镜像拉取认证信息
     username: admin
     password: admin

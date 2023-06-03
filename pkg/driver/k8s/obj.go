@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/model"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/util"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/model"
+	"github.com/fedstate/fedstate/pkg/util"
 
 	errors2 "github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"

@@ -1,4 +1,4 @@
-module github.com/daocloud/multicloud-mongo-operator
+module github.com/fedstate/fedstate //
 
 go 1.19
 

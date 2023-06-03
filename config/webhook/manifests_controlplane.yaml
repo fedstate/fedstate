@@ -17,7 +17,7 @@ webhooks:
   name: mmulticloudmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:
@@ -45,7 +45,7 @@ webhooks:
   name: vmulticloudmongodb.kb.io
   rules:
   - apiGroups:
-    - middleware.daocloud.io
+    - middleware.fedstate.io
     apiVersions:
     - v1alpha1
     operations:

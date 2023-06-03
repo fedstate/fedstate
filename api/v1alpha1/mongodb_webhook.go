@@ -19,12 +19,13 @@ package v1alpha1
 import (
 	"errors"
 
-	"github.com/daocloud/multicloud-mongo-operator/pkg/config"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
+
+	"github.com/fedstate/fedstate/pkg/config"
 )
 
 // log is for logging in this package.
@@ -38,7 +39,7 @@ func (r *MongoDB) SetupWebhookWithManager(mgr ctrl.Manager) error {
 
 // TODO(user): EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 
-//+kubebuilder:webhook:path=/mutate-middleware-daocloud-io-v1alpha1-mongodb,mutating=true,failurePolicy=fail,sideEffects=None,groups=middleware.daocloud.io,resources=mongodbs,verbs=create;update,versions=v1alpha1,name=mmongodb.kb.io,admissionReviewVersions=v1
+//+kubebuilder:webhook:path=/mutate-middleware-fedstate-io-v1alpha1-mongodb,mutating=true,failurePolicy=fail,sideEffects=None,groups=middleware.fedstate.io,resources=mongodbs,verbs=create;update,versions=v1alpha1,name=mmongodb.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Defaulter = &MongoDB{}
 
@@ -101,7 +102,7 @@ func (r *MongoDB) Default() {
 }
 
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
-//+kubebuilder:webhook:path=/validate-middleware-daocloud-io-v1alpha1-mongodb,mutating=false,failurePolicy=fail,sideEffects=None,groups=middleware.daocloud.io,resources=mongodbs,verbs=create;update,versions=v1alpha1,name=vmongodb.kb.io,admissionReviewVersions=v1
+//+kubebuilder:webhook:path=/validate-middleware-fedstate-io-v1alpha1-mongodb,mutating=false,failurePolicy=fail,sideEffects=None,groups=middleware.fedstate.io,resources=mongodbs,verbs=create;update,versions=v1alpha1,name=vmongodb.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Validator = &MongoDB{}
 

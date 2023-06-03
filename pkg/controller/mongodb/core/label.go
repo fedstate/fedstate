@@ -1,8 +1,8 @@
 package core
 
 import (
-	middlewarev1alpha1 "github.com/daocloud/multicloud-mongo-operator/api/v1alpha1"
-	"github.com/daocloud/multicloud-mongo-operator/pkg/driver/k8s"
+	middlewarev1alpha1 "github.com/fedstate/fedstate/api/v1alpha1"
+	"github.com/fedstate/fedstate/pkg/driver/k8s"
 	"k8s.io/apimachinery/pkg/labels"
 )
 

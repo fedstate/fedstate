@@ -1,4 +1,4 @@
-apiVersion: middleware.daocloud.io/v1alpha1
+apiVersion: middleware.fedstate.io/v1alpha1
 kind: MongoDB
 metadata:
   labels:
@@ -10,7 +10,7 @@ metadata:
   name: mongodb-sample
 spec:
   members: 1 # 副本数
-  image: daocloud.io/atsctoo/mongo:3.6 # 可以指定某个mongo版本进行部署，默认为mongo 6.0版本
+  image: fedstate.io/atsctoo/mongo:3.6 # 可以指定某个mongo版本进行部署，默认为mongo 6.0版本
   imagePullSecret: # 镜像拉取认证信息
     username: admin
     password: admin
