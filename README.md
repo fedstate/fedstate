@@ -6,19 +6,28 @@ FedState是Federation Stateful Service的意思，主要的设计目标是为了
 
 FedState对需要部署在多云环境上的中间件，数据库等有状态的服务通过Karmada下发到各个成员集群，使其正常工作的同时并提供一些高级运维能力。
 
-
 ## 架构：
 
 ![structure.png](config/structure.png)
 
-FedState自身包含以下组件：
+组件说明：
 
-- FedInfraScheduler: 中间件等服务多云环境调度器，包含一些与中间件服务运行时状态相关的调度策略。
-- FedInfraOps：中间件等服务控制器主要负责这些服务的按需配置与通过Karmada分发。
+- FedStateScheduler: 多云有状态服务调度器，在Karmada调度器的基础上，添加了一些与中间件服务相关的调度策略。
+- FedState：多云有状态服务控制器主要负责按需配置各个管控集群与通过Karmada分发。
+- Member Operator：一个概念，表示的是部署在管控平面的有状态服务Operator，FedState内置了Mongo Operator，后续会支持更多的有状态服务。
+- FedStateCR：一个概念，表示多云有状态服务实例。
+- FedStateCR-Member：一个概念，表示多云有状态服务被下发到管控平面的实例。
+
+### FedState目前能力（以接入MongoDB Operator为例）：
+
+- 多云MongoDB扩缩容。
+- 多云MongoDB故障转移。
+- 多云MongoDB配置更新，自定配置。
+- 多云MongoDB资源更新。
 
 ## 快速开始：
 
-在Karmada Host集群，部署FedInfraOps和调度器。在所有Karmada成员集群，部署InfraServer Operator。创建联邦中间件实例。
+部署FedState至Karmada Host集群，部署Member Operator至成员集群，在控制面创建FedStateCR，等待创建成功直到可以对外提供服务。
 
 ### 先决条件：
 
@@ -33,40 +42,46 @@ FedState自身包含以下组件：
 2. 使用Keepalived，HAProxy等服务分别管理两个集群的VIP。
 3. 部署Karmada：[https://karmada.io/docs/installation/](https://karmada.io/docs/installation/)。
 
-### FedInfraOps以及FedInfraScheduler安装（以Mongo为例）：
+### FedState以及FedStateScheduler安装（以Mongo为例）：
 
-1. 在Karmada Host集群，检查所纳管的成员集群是否部署了estimator。
+说明：
 
-```other
-## 检查是否部署了karmada estimator组件。
-kubectl get po -n karmada-system  | grep estimator
-## 如果没有部署，进行karmada estimator组件部署：
-kubectl-karmada addons
-## 检查estimator service的名称后缀必须为{*}-estimator-{clustername}
-kubectl get svc -n karmada-system | grep estimator
+- Karmada Host：指的是部署Karmada组件的集群。
+- Karmada Control：指的是与Karmada Apiserver交互的Karmada控制面。
+1. （可选）在Karmada Host集群，检查所纳管的成员集群是否部署了estimator。
+
+![Image.png](config/Image.png)
+
+如果没有开启estimator，则调度器无法预估多云有状态服务资源设置能否被管控平面满足。
+
+（可选）开启estimator，memberClusterName为想要开始estimator的成员集群名称：
+
+```shell
+karmadactl addons enable  karmada-scheduler-estimator  -C {memberClusterName}
 ```
 
-2. 在Karmada Host集群，部署自定义资源解释器。
+（可选）检查estimator service的名称是否符合以 estimator-{clusterName} 为后缀。
+
+2. 在Karmada Control上部署自定义资源解释器：
 
 ```other
-kubectl apply -f customization.yaml
+kubectl apply -f customresourceinterpreter/pkg/deploy/customization.yaml
 ```
 
-3. 在Karmada Host集群，部署控制面服务 multicloud-mongo-operator。
+3. 在Karmada Host集群上部署控制面服务：
 
 ```other
-cd pkg/install/config
-kubectl create ns federation-mongo-operator
-kubectl create secret generic kubeconfig --from-file=/root/.kube/config -n federation-mongo-operator
+kubectl create ns {your-namespace}
+kubectl create secret generic kubeconfig --from-file=/root/.kube/config -n {your-namespace} 
 ## 在kubeconfig查看Karmada ApiServer名称
 kubectl config get-contexts
 ## 修改manager.yaml将其中的KARMADA_CONTEXT_NAME值改为karmada apiserver名称
-vim manager/manager.yaml
-kubectl apply -f config/webhook/secret.yaml -n federation-mongo-operator
-kubectl apply -k config/deploy_contorlplane/.
+vim config/manager/manager.yaml
+kubectl apply -f config/webhook/secret.yaml -n {your-namespace}
+kubectl apply -k config/deploy_contorlplane/. -n {your-namespace}
 ```
 
-4. 在Karmada Host集群，部署webhook以及控制面的CRD。
+4. 在Karmada Control上部署webhook以及控制面CRD：
 
 ```other
 kubectl label cluster <成员clsuter名称> vip=<成员集群对应的Vip>
@@ -74,29 +89,60 @@ kubectl apply -f config/webhook/external-svc.yaml
 kubectl apply -f config/crd/bases/.
 ```
 
-5. 在Karmada Host集群，部署调度器。
+5. 在Karmada Host集群部署调度器：
 
 ```other
-cd install/scheduler/artifacts
 ## 在kubeconfig查看Karmada Host Apiserver的名称以及Karmada Apiserver的名称和karmada Host的Vip地址
-vim ./deployment.yaml
+vim artifacts/deploy/deployment.yaml
 ## 修改以下启动参数为上面的值           
 - --karmada-context=karmada
 - --host-context=10-29-14-21
 - --host-vip-address=10.29.5.103
 ```
 
-6. 在所有的Karmada的成员集群上，部署数据面控制器mongo-operator。
+6. 在member Cluster上部署数据面控制器：
 
 ```other
-cd insatll/config
-kubectl apply -f config/crd/bases/mongodbs.yaml
+kubectl apply -f config/crd/bases/mongodbs.yaml -n {your-namespace}
 kubectl apply -k config/deploy_dataplane/.
 ```
 
-7. 在Karmada Host集群，创建MultiCloudMongoDB实例。
+7. 在控制面部署MiddleCloudMongoDB：
 
 ```shell
 kubectl apply -f config/sample/samples.yaml
+## sample.yaml:
+apiVersion: middleware.fedstate.io/v1alpha1
+kind: MultiCloudMongoDB
+metadata:
+  name: multicloudmongodb-sample
+spec:
+  ## 副本数
+  replicaset: 5
+  ## 监控配置
+  export:
+    enable: false
+  ## 资源配置
+  resource:
+    limits:
+      cpu: "2"
+      memory: 512Mi
+    requests:
+      cpu: "1"
+      memory: 512Mi
+  ## 存储配置
+  storage:
+    storageClass: managed-nfs-storage
+    storageSize: 1Gi
+  ## 镜像配置
+  imageSetting:
+    image: mongo:3.6
+    imagePullPolicy: Always
 ```
+
+8. 查看MultiCloudMongoDB状态以及各个被管控集群上MongoDB状态：
+
+![multicloudmongodbstatus.png](config/multicloudstatus.png)
+
+使用externalAddr地址连接MongoDB副本集。
 

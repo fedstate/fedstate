@@ -1,4 +1,4 @@
-module github.com/fedstate/fedstate //
+module github.com/fedstate/fedstate
 
 go 1.19
 
