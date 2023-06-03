@@ -1,12 +1,11 @@
 # FedState
 
-FedState 是一个解决方案，专注于使消息队列，数据库等服务运行在多云环境上。
+FedState是Federation Stateful Service的意思，主要的设计目标是为了解决在多云，多集群，多数据中心的场景下，有状态服务的编排，调度，部署和自动化运维等能力。
 
 ## 概述：
 
-FedState对需要部署在多云环境上的中间件，数据库服务通过Karmada下发到各个成员集群，使其正常工作的同时并提供一些高级运维能力。
+FedState对需要部署在多云环境上的中间件，数据库等有状态的服务通过Karmada下发到各个成员集群，使其正常工作的同时并提供一些高级运维能力。
 
-**注意：当前为alpha版本**
 
 ## 架构：
 
@@ -19,7 +18,7 @@ FedState自身包含以下组件：
 
 ## 快速开始：
 
-部署FedInfraOps至Karmada Host集群，部署InfraServer Operator至成员集群，在控制面创建FedInfraOps等待创建成功直到可以对外提供服务。
+在Karmada Host集群，部署FedInfraOps和调度器。在所有Karmada成员集群，部署InfraServer Operator。创建联邦中间件实例。
 
 ### 先决条件：
 
@@ -36,24 +35,24 @@ FedState自身包含以下组件：
 
 ### FedInfraOps以及FedInfraScheduler安装（以Mongo为例）：
 
-1. 在Karmada Host集群，检查所纳管的成员集群是否部署了estimator
+1. 在Karmada Host集群，检查所纳管的成员集群是否部署了estimator。
 
 ```other
-## 检查是否部署了estimator
+## 检查是否部署了karmada estimator组件。
 kubectl get po -n karmada-system  | grep estimator
-## 如果没有部署，进行estimator部署：
+## 如果没有部署，进行karmada estimator组件部署：
 kubectl-karmada addons
 ## 检查estimator service的名称后缀必须为{*}-estimator-{clustername}
 kubectl get svc -n karmada-system | grep estimator
 ```
 
-2. 在Karmada Control集群,部署自定义资源解释器
+2. 在Karmada Host集群，部署自定义资源解释器。
 
 ```other
 kubectl apply -f customization.yaml
 ```
 
-3. 在Karmada Host集群部署控制面服务
+3. 在Karmada Host集群，部署控制面服务 multicloud-mongo-operator。
 
 ```other
 cd pkg/install/config
@@ -67,7 +66,7 @@ kubectl apply -f config/webhook/secret.yaml -n federation-mongo-operator
 kubectl apply -k config/deploy_contorlplane/.
 ```
 
-4. 在Karmada Control上部署webhook以及控制面CRD
+4. 在Karmada Host集群，部署webhook以及控制面的CRD。
 
 ```other
 kubectl label cluster <成员clsuter名称> vip=<成员集群对应的Vip>
@@ -75,7 +74,7 @@ kubectl apply -f config/webhook/external-svc.yaml
 kubectl apply -f config/crd/bases/.
 ```
 
-5. 在Karmada Host集群部署调度器
+5. 在Karmada Host集群，部署调度器。
 
 ```other
 cd install/scheduler/artifacts
@@ -87,7 +86,7 @@ vim ./deployment.yaml
 - --host-vip-address=10.29.5.103
 ```
 
-6. 在member Cluster上部署数据面控制器
+6. 在所有的Karmada的成员集群上，部署数据面控制器mongo-operator。
 
 ```other
 cd insatll/config
@@ -95,7 +94,7 @@ kubectl apply -f config/crd/bases/mongodbs.yaml
 kubectl apply -k config/deploy_dataplane/.
 ```
 
-7. 在控制面部署MiddleCloudMongoDB
+7. 在Karmada Host集群，创建MultiCloudMongoDB实例。
 
 ```shell
 kubectl apply -f config/sample/samples.yaml
