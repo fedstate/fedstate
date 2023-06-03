@@ -95,7 +95,9 @@ kubectl apply -k config/deploy_contorlplane/. -n {your-namespace}
 
 ```other
 kubectl label cluster <成员cluster名称> vip=<成员集群对应的Vip>
+
 kubectl apply -f config/webhook/external-svc.yaml
+
 kubectl apply -f config/crd/bases/.
 ```
 
