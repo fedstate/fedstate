@@ -106,7 +106,7 @@ kubectl apply -f config/crd/bases/.
 ```other
 ## 在kubeconfig查看Karmada Host Apiserver的名称以及Karmada Apiserver的名称和karmada Host的Vip地址
 
-vim artifacts/deploy/deployment.yaml
+vim config/artifacts/deploy/deployment.yaml
 
 ## 修改以下启动参数为上面的值    
 
