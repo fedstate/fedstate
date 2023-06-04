@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github.com/fedstate/fedstatescheduler
+  namespace: federation-mongo-operator
+  labels:
+    app: middleware-scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: middleware-scheduler
+  template:
+    metadata:
+      labels:
+        app: middleware-scheduler
+    spec:
+      automountServiceAccountToken: false
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+      containers:
+        - name: github.com/fedstate/fedstatescheduler
+          image: fedstate/middlewareschduler:v0.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 10351
+              scheme: HTTP
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 5
+          command:
+            - /scheduler
+            - --kubeconfig=/etc/kubeconfig
+            - --karmada-context=karmada
+            - --host-context=10-29-14-21
+            - --enable-scheduler-estimator=true
+            - --scheduler-estimator-service-prefix=grpc-estimator
+            - --host-vip-address=10.29.5.103
+          volumeMounts:
+            - name: kubeconfig
+              subPath: kubeconfig
+              mountPath: /etc/kubeconfig
+      volumes:
+        - name: kubeconfig
+          secret:
+            secretName: kubeconfig
