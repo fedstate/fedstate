@@ -1,6 +1,6 @@
 # FedState
 
-FedState是Federation Stateful Service的意思，主要的设计目标是为了解决在多云，多集群，多数据中心的场景下，有状态服务的编排，调度，部署和自动化运维等能力。
+FedState指的是Federation Stateful Service，主要的设计目标是为了解决在多云，多集群，多数据中心的场景下，有状态服务的编排，调度，部署和自动化运维等能力。
 
 ## 概述：
 
@@ -20,6 +20,7 @@ FedState对需要部署在多云环境上的中间件，数据库等有状态的
 
 ### FedState目前能力（以接入MongoDB Operator为例）：
 
+- 多云MongoDB的增删改查。
 - 多云MongoDB扩缩容。
 - 多云MongoDB故障转移。
 - 多云MongoDB配置更新，自定配置。
@@ -42,12 +43,13 @@ FedState对需要部署在多云环境上的中间件，数据库等有状态的
 2. 使用Keepalived，HAProxy等服务分别管理两个集群的VIP。
 3. 部署Karmada：[https://karmada.io/docs/installation/](https://karmada.io/docs/installation/)。
 
-### FedState以及FedStateScheduler安装（以Mongo为例）：
+### FedState安装（以MongoDB为例）：
 
 说明：
 
 - Karmada Host：指的是部署Karmada组件的集群。
 - Karmada Control：指的是与Karmada Apiserver交互的Karmada控制面。
+
 1. （可选）在Karmada Host集群，检查所纳管的成员集群是否部署了estimator。
 
 ![Image.png](config/Image.png)
@@ -71,21 +73,31 @@ kubectl apply -f customresourceinterpreter/pkg/deploy/customization.yaml
 3. 在Karmada Host集群上部署控制面服务：
 
 ```other
+
 kubectl create ns {your-namespace}
+
 kubectl create secret generic kubeconfig --from-file=/root/.kube/config -n {your-namespace} 
+
 ## 在kubeconfig查看Karmada ApiServer名称
+
 kubectl config get-contexts
+
 ## 修改manager.yaml将其中的KARMADA_CONTEXT_NAME值改为karmada apiserver名称
+
 vim config/manager/manager.yaml
+
 kubectl apply -f config/webhook/secret.yaml -n {your-namespace}
+
 kubectl apply -k config/deploy_contorlplane/. -n {your-namespace}
 ```
 
 4. 在Karmada Control上部署webhook以及控制面CRD：
 
 ```other
-kubectl label cluster <成员clsuter名称> vip=<成员集群对应的Vip>
+kubectl label cluster <成员cluster名称> vip=<成员集群对应的Vip>
+
 kubectl apply -f config/webhook/external-svc.yaml
+
 kubectl apply -f config/crd/bases/.
 ```
 
@@ -93,17 +105,23 @@ kubectl apply -f config/crd/bases/.
 
 ```other
 ## 在kubeconfig查看Karmada Host Apiserver的名称以及Karmada Apiserver的名称和karmada Host的Vip地址
+
 vim artifacts/deploy/deployment.yaml
-## 修改以下启动参数为上面的值           
-- --karmada-context=karmada
-- --host-context=10-29-14-21
-- --host-vip-address=10.29.5.103
+
+## 修改以下启动参数为上面的值    
+
+- --karmada-context=<karmada>
+
+- --host-context=<10-29-14-21>
+
+- --host-vip-address=<10.29.5.103>
 ```
 
 6. 在member Cluster上部署数据面控制器：
 
 ```other
 kubectl apply -f config/crd/bases/mongodbs.yaml -n {your-namespace}
+
 kubectl apply -k config/deploy_dataplane/.
 ```
 
@@ -111,6 +129,7 @@ kubectl apply -k config/deploy_dataplane/.
 
 ```shell
 kubectl apply -f config/sample/samples.yaml
+
 ## sample.yaml:
 apiVersion: middleware.fedstate.io/v1alpha1
 kind: MultiCloudMongoDB
