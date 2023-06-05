@@ -1,160 +1,172 @@
 # FedState
 
-FedState 指的是 Federation Stateful Service，主要的设计目标是为了解决在多云，多集群，多数据中心的场景下，有状态服务的编排，调度，部署和自动化运维等能力。
+**English** | [**简体中文**](./README_zh.md)
 
-## 概述
+FedState refers to the Federation Stateful Service, which is mainly designed to
+provide stateful service orchestration, scheduling, deployment, and automated
+operation and maintenance capabilities in scenarios with multiple clouds, clusters, and data centers.
 
-FedState 对需要部署在多云环境上的中间件，数据库等有状态的服务通过 Karmada 下发到各个成员集群，使其正常工作的同时并提供一些高级运维能力。
+## Overview
 
-## 架构
+FedState is used to deploy middleware, databases, and other stateful services that
+need to be deployed in a multi-cloud environment to each member cluster through Karmada,
+so that they can work normally and provide some advanced operation and maintenance capabilities.
 
-![structure.png](config/structure.png)
+## Architecture
 
-组件说明：
+![architecture](config/structure.png)
 
-- FedStateScheduler: 多云有状态服务调度器，在 Karmada 调度器的基础上，添加了一些与中间件服务相关的调度策略。
-- FedState：多云有状态服务控制器主要负责按需配置各个管控集群与通过 Karmada 分发。
-- Member Operator：一个概念，表示的是部署在管控平面的有状态服务 Operator，FedState 内置了 Mongo Operator，后续会支持更多的有状态服务。
-- FedStateCR：一个概念，表示多云有状态服务实例。
-- FedStateCR-Member：一个概念，表示多云有状态服务被下发到管控平面的实例。
+Component description:
 
-### FedState 目前能力（以接入 MongoDB Operator 为例）
+- FedStateScheduler: A multi-cloud stateful service scheduler, based on the Karmada scheduler,
+  adds some scheduling policies related to middleware services.
+- FedState: The multi-cloud stateful service controller is mainly responsible for configuring
+  various control clusters as needed and distributing them through Karmada.
+- Member Operator: A concept that refers to a stateful service operator deployed in the control plane.
+  FedState has built-in Mongo operators and will support more stateful services in the future.
+- FedStateCR: A concept representing a multi-cloud stateful service instance.
+- FedStateCR-Member: A concept representing an instance of a multi-cloud stateful service that
+  has been distributed to the control plane.
 
-- 多云 MongoDB 的增删改查。
-- 多云 MongoDB 扩缩容。
-- 多云 MongoDB 故障转移。
-- 多云 MongoDB 配置更新，自定配置。
-- 多云 MongoDB 资源更新。
+### Current capabilities of FedState (using MongoDB Operator as an example)
 
-## 快速开始
+- Add, delete, modify, and query multi-cloud MongoDB
+- Scale multi-cloud MongoDB up and down
+- Multi-cloud MongoDB failover
+- Update multi-cloud MongoDB configuration and customize configurations
+- Update multi-cloud MongoDB resources
 
-部署 FedState 至 Karmada Host 集群，部署 Member Operator 至成员集群，在控制面创建 FedStateCR，等待创建成功直到可以对外提供服务。
+## Quick Start
 
-### 先决条件
+Deploy FedState to the Karmada Host cluster, deploy Member Operator to the member cluster,
+create FedStateCR in the control plane, and wait for it to be created successfully until it can provide external services.
+
+### Prerequisites
 
 - Kubernetes v1.16+
 - Karmada v1.4+
-- 存储服务
-- 集群 VIP
+- Storage service
+- Cluster VIP
 
-### 环境准备及 Karmada 安装
+### Environment preparation and Karmada installation
 
-1. 准备不少于两个 Kubernetes 集群。
-2. 使用 Keepalived，HAProxy 等服务分别管理两个集群的 VIP。
-3. 部署 Karmada：[https://karmada.io/docs/installation/](https://karmada.io/docs/installation/)。
+1. Prepare at least two Kubernetes clusters.
+2. Use services such as Keepalived and HAProxy to manage the VIPs of the two clusters separately.
+3. Deploy Karmada: [https://karmada.io/docs/installation/](https://karmada.io/docs/installation/).
 
-### FedState 安装（以 MongoDB 为例）
+### FedState installation (using MongoDB as an example)
 
-说明：
+> Note:
+>
+> - Karmada Host refers to the cluster where Karmada components are deployed.
+> - Karmada Control refers to the Karmada control plane that interacts with the Karmada Apiserver.
 
-- Karmada Host：指的是部署 Karmada 组件的集群。
-- Karmada Control：指的是与 Karmada Apiserver 交互的 Karmada 控制面。
+1. (Optional) On the Karmada Host cluster, check whether the member cluster being managed has deployed estimator.
 
-1. （可选）在 Karmada Host 集群，检查所纳管的成员集群是否部署了 estimator。
+   ![get pod](config/Image.png)
 
-![Image.png](config/Image.png)
+   If the estimator is not enabled, the scheduler cannot estimate whether the resource settings
+   of the multi-cloud stateful service can be met by the control plane.
 
-如果没有开启 estimator，则调度器无法预估多云有状态服务资源设置能否被管控平面满足。
+   (Optional) Enable the estimator, and memberClusterName is the name of the member cluster on
+   which you want to start the estimator:
 
-（可选）开启 estimator，memberClusterName 为想要开始 estimator 的成员集群名称：
+   ```shell
+   karmadactl addons enable  karmada-scheduler-estimator  -C {memberClusterName}
+   ```
 
-```shell
-karmadactl addons enable  karmada-scheduler-estimator  -C {memberClusterName}
-```
+   (Optional) Check whether the name of the estimator service is suffixed with estimator-{clusterName}.
 
-（可选）检查 estimator service 的名称是否符合以 estimator-{clusterName} 为后缀。
+2. Deploy a custom resource interpreter on Karmada Control:
 
-2. 在 Karmada Control 上部署自定义资源解释器：
+   ```shell
+   kubectl apply -f customresourceinterpreter/pkg/deploy/customization.yaml
+   ```
 
-```shell
-kubectl apply -f customresourceinterpreter/pkg/deploy/customization.yaml
-```
+3. Deploy the control plane service on the Karmada Host cluster:
 
-3. 在 Karmada Host 集群上部署控制面服务：
+   ```shell
+   kubectl create ns {your-namespace}
+   kubectl create secret generic kubeconfig --from-file=/root/.kube/config -n {your-namespace} 
 
-```shell
-kubectl create ns {your-namespace}
+   # Check the Karmada ApiServer name in kubeconfig
+   kubectl config get-contexts
 
-kubectl create secret generic kubeconfig --from-file=/root/.kube/config -n {your-namespace} 
+   # Modify manager.yaml and change the value of KARMADA_CONTEXT_NAME to the Karmada Apiserver name
+   vim config/manager/manager.yaml
+   kubectl apply -f config/webhook/secret.yaml -n {your-namespace}
+   kubectl apply -k config/deploy_contorlplane/. -n {your-namespace}
+   ```
 
-## 在 kubeconfig 查看 Karmada ApiServer 名称
+4. Deploy the webhook and control plane CRD on Karmada Control:
 
-kubectl config get-contexts
+   ```shell
+   kubectl label cluster <memberClusterName> VIP=<VIP of member cluster>
+   kubectl apply -f config/webhook/external-svc.yaml
+   kubectl apply -f config/crd/bases/.
+   ```
 
-## 修改 manager.yaml 将其中的 KARMADA_CONTEXT_NAME 值改为 karmada apiserver 名称
+5. Deploy the scheduler on the Karmada Host cluster:
 
-vim config/manager/manager.yaml
+   ```shell
+   # Check the name of the Karmada Host Apiserver, Karmada Apiserver,
+   # and the VIP address of the karmada Host in kubeconfig
 
-kubectl apply -f config/webhook/secret.yaml -n {your-namespace}
+   vim config/artifacts/deploy/deployment.yaml
 
-kubectl apply -k config/deploy_contorlplane/. -n {your-namespace}
-```
+   # Modify the following startup parameters to the values above:    
 
-4. 在 Karmada Control 上部署 webhook 以及控制面 CRD：
+   - --karmada-context=<karmada>
+   - --host-context=<10-29-14-21>
+   - --host-VIP-address=<10.29.5.103>
+   ```
 
-```shell
-kubectl label cluster <成员cluster名称> VIP=<成员集群对应的VIP>
-kubectl apply -f config/webhook/external-svc.yaml
-kubectl apply -f config/crd/bases/.
-```
+6. Deploy the data planecontroller on the member cluster:
 
-5. 在 Karmada Host 集群部署调度器：
+   ```shell
+   kubectl apply -f config/crd/bases/mongodbs.yaml -n {your-namespace}
+   kubectl apply -k config/deploy_dataplane/.
+   ```
 
-```shell
- 在 kubeconfig 查看 Karmada Host Apiserver 的名称以及 Karmada Apiserver 的名称和 karmada Host 的 VIP 地址
+7. Deploy MultiCloudMongoDB on the control plane:
 
-vim config/artifacts/deploy/deployment.yaml
+   ```shell
+   kubectl apply -f config/sample/samples.yaml
+   ```
 
-## 修改以下启动参数为上面的值    
+   The `sample.yaml` is smilar to:
 
-- --karmada-context=<karmada>
-- --host-context=<10-29-14-21>
-- --host-VIP-address=<10.29.5.103>
-```
+   ```yaml
+   apiVersion: middleware.fedstate.io/v1alpha1
+   kind: MultiCloudMongoDB
+   metadata:
+     name: multicloudmongodb-sample
+   spec:
+     # Number of replicas
+     replicaset: 5
+     # Monitoring configuration
+     export:
+       enable: false
+     # Resource configuration
+     resource:
+       limits:
+         cpu: "2"
+         memory: 512Mi
+       requests:
+         cpu: "1"
+         memory: 512Mi
+     # Storage configuration
+     storage:
+       storageClass: managed-nfs-storage
+       storageSize: 1Gi
+     # Image configuration
+     imageSetting:
+       image: mongo:3.6
+       imagePullPolicy: Always
+   ```
 
-6. 在 Member Cluster 上部署数据面控制器：
+8. Check the status of MultiCloudMongoDB and MongoDB on each controlled cluster:
 
-```shell
-kubectl apply -f config/crd/bases/mongodbs.yaml -n {your-namespace}
-kubectl apply -k config/deploy_dataplane/.
-```
+   ![view status](config/multicloudstatus.png)
 
-7. 在控制面部署 MultiCloudMongoDB：
-
-```shell
-kubectl apply -f config/sample/samples.yaml
-
-## sample.yaml:
-apiVersion: middleware.fedstate.io/v1alpha1
-kind: MultiCloudMongoDB
-metadata:
-  name: multicloudmongodb-sample
-spec:
-  ## 副本数
-  replicaset: 5
-  ## 监控配置
-  export:
-    enable: false
-  ## 资源配置
-  resource:
-    limits:
-      cpu: "2"
-      memory: 512Mi
-    requests:
-      cpu: "1"
-      memory: 512Mi
-  ## 存储配置
-  storage:
-    storageClass: managed-nfs-storage
-    storageSize: 1Gi
-  ## 镜像配置
-  imageSetting:
-    image: mongo:3.6
-    imagePullPolicy: Always
-```
-
-8. 查看 MultiCloudMongoDB 状态以及各个被管控集群上 MongoDB 状态：
-
-![multicloudmongodbstatus.png](config/multicloudstatus.png)
-
-使用 externalAddr 地址连接 MongoDB 副本集。
+   Connect to the MongoDB replica set using the externalAddr address.
