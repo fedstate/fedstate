@@ -125,7 +125,7 @@ kubectl apply -f config/crd/bases/mongodbs.yaml -n {your-namespace}
 kubectl apply -k config/deploy_dataplane/.
 ```
 
-7. 在控制面部署MiddleCloudMongoDB：
+7. 在控制面部署MultiCloudMongoDB：
 
 ```shell
 kubectl apply -f config/sample/samples.yaml
