@@ -63,7 +63,7 @@ FedState 对需要部署在多云环境上的中间件、数据库等有状态�
 
    如果没有开启 estimator，则调度器无法预估多云有状态服务资源设置能否被管控平面满足。
 
-   （可选）开启 estimator。memberClusterName 是想要开始 estimator 的成员集群名称：
+   （可选）开启 estimator。memberClusterName 是想要开启 estimator 的成员集群名称：
 
    ```shell
    karmadactl addons enable  karmada-scheduler-estimator  -C {memberClusterName}
