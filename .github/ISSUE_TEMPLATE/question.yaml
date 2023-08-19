@@ -1,0 +1,18 @@
+name: Question
+description: Question relating to FedState
+labels: kind/question
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Please provide an in-depth description of the question you have
+
+  - type: textarea
+    id: think
+    attributes:
+      label: What do you think about this question?
+
+  - type: textarea
+    id: Environmen
+    attributes:
+      label: Environment
