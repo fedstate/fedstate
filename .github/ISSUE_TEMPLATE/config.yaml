@@ -1,0 +1,4 @@
+contact_links:
+  - name: Support Request
+    url: https://github.com/Michael-Xing/fedstate-fedstate/discussions
+    about: Support request or question relating to FedState
