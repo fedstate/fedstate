@@ -113,7 +113,7 @@ func (r *MongoDBReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 	m := mode.GetMongoInstance(r.mgr, cr, r.Log, r.Event)
 	b := m.GetBase()
 
-	if cr.Spec.Pause == true {
+	if cr.Spec.Pause {
 		err := b.Base.UpdateState(middlewarev1alpha1.StatePause)
 		return reconcile.Result{}, err // continue
 	}
