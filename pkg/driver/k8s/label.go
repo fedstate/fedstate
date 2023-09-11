@@ -98,14 +98,12 @@ func MergeLabels(allLabels ...map[string]string) map[string]string {
 	res := map[string]string{}
 
 	for _, labels := range allLabels {
-		if labels != nil {
-			for k, v := range labels {
-				if _, ok := res[k]; ok {
-					labelLog.Debugf("override label key: %s", k)
-				}
-
-				res[k] = v
+		for k, v := range labels {
+			if _, ok := res[k]; ok {
+				labelLog.Debugf("override label key: %s", k)
 			}
+
+			res[k] = v
 		}
 	}
 	return res

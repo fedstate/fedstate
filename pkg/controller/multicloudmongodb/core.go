@@ -805,7 +805,7 @@ func (h *StatusHandler) SetNext(handler MultiCloudDBHandler) MultiCloudDBHandler
 
 func (h *StatusHandler) Handle(params *MultiCloudDBParams) error {
 
-	processMessage := fmt.Sprintf("Service Dispatch Successful And Ready For External Service")
+	processMessage := "Service Dispatch Successful And Ready For External Service"
 	processReason := "ServerReady"
 	processStatus := middlewarev1alpha1.True
 	conditionType := middlewarev1alpha1.ServerReady
@@ -845,7 +845,7 @@ func (h *StatusHandler) Handle(params *MultiCloudDBParams) error {
 			})
 		}
 		params.Log.Infof("Get MultiCloudMongoDB Status/AggregatedStatus Failed: %v", params.MultiCloudMongoDB.Status)
-		processMessage = fmt.Sprintf("Service Dispatch Failed And NotReady For External Service")
+		processMessage = "Service Dispatch Failed And NotReady For External Service"
 		processReason = "ServerReady"
 		processStatus = middlewarev1alpha1.False
 		conditionType = middlewarev1alpha1.ServerReady
@@ -910,7 +910,7 @@ func (h *StatusHandler) Handle(params *MultiCloudDBParams) error {
 	if health == len(rb.Status.AggregatedStatus) {
 		params.MultiCloudMongoDB.Status.State = middlewarev1alpha1.Health
 	} else {
-		processMessage = fmt.Sprintf("Service Dispatch Failed And NotReady For External Service")
+		processMessage = "Service Dispatch Failed And NotReady For External Service"
 		processReason = "ServerReady"
 		processStatus = middlewarev1alpha1.False
 		conditionType = middlewarev1alpha1.ServerReady

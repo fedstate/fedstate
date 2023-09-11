@@ -92,7 +92,10 @@ func main() {
 			"Enabling this will ensure there is only one active controller manager.")
 	flagset.StringVar(&kubeConfig, "kubeconfig", "/etc/kubeconfig", "karmada api config")
 	flagset.BoolVar(&enableCertRotation, "enablecertrotation", true, "start webhook ca get")
-	flagset.Parse(os.Args[1:])
+	err := flagset.Parse(os.Args[1:])
+	if err != nil {
+		fmt.Printf("flagset err: %v", err)
+	}
 
 	// ctrl.SetLogger(zap.New(zap.UseFlagOptions(&logi.ZapOptions)))
 	ctrl.SetLogger(zapr.NewLogger(logi.Log))

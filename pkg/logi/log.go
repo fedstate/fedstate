@@ -112,7 +112,11 @@ func GetLogger(viper *viper.Viper) {
 
 	logger := zap.New(core, zap.AddCaller())
 	logger = logger.WithOptions(opts...)
-	defer logger.Sync()
+	defer func() {
+		if err := logger.Sync(); err != nil {
+			fmt.Printf("set logger err: %v", err)
+		}
+	}()
 	SetLogger(logger)
 }
 
